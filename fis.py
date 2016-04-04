@@ -1,60 +1,8 @@
-
-class MFValue:
-    def __init__(self, arg, value):
-        self.arg = arg
-        self.value = value
-
-
-class Parameter:
-    def __init__(self, name, value):
-        self.name = name
-        self.value = value
-
-
-class LTerms:
-    def __init__(self, name, value, mf):
-        self.name = name
-        self.value = value
-        self.mf = mf
-
-
-class Variable:
-    def __init__(self, name, value, leftB, rightB, mfvalues):
-        self.name = name
-        self.value = value
-        self.leftB = leftB
-        self.rightB = rightB
-        self.mfvalues = mfvalues
-
-                            
-class Disjunct:        
-    def __init__(self, conjuncts, value):
-        self.conjuncts = conjuncts #list
-        self.value = value
-    def calc(self):
-
-
-class Conjuct:
-	def __init__(self, literals, value):
-        self.literals = literals #list
-        self.value = value
-    def calc(self):
-
-class Literal:
-	def __init__(self, varname, ltname, neg, value):
-        self.varname = varname
-        self.ltname = ltname
-        self.neg = neg
-        self.value = value
-    def calc(self, inputs): #нужен поиск и по ключу, и по индексу
-    	#self.value = inputs
-
 class MFunction:
 
     def __init__(self, mftype, parameters):
         self.type = mftype
         self.parameters = parameters #list
-
 
     def calc(self, x, a, b, c, d):
         if self.name == "Pfunc":
@@ -145,9 +93,75 @@ class MFunction:
             elif x >= b :
                 return 0
 
+
+class LTerms:
+    def __init__(self, name, value, mf):
+        self.name = name
+        self.value = value
+        self.mf = mf
+
+
+class MFValue:
+    def __init__(self, arg, value):
+        self.arg = arg
+        self.value = value
+
+
+class Variable:
+    def __init__(self, name, value, leftB, rightB, mfvalues):
+        self.name = name
+        self.value = value
+        self.leftB = leftB
+        self.rightB = rightB
+        self.mfvalues = mfvalues
+
+
+class Literal:
+	def __init__(self, varname, ltname, neg, value):
+        self.varname = varname
+        self.ltname = ltname
+        self.neg = neg
+        self.value = value
+    def calc(self, inputs): #нужен поиск и по ключу, и по индексу
+    	#self.value = inputs
+
+
+class Conjuct:
+	def __init__(self, literals, value):
+        self.literals = literals #list
+        self.value = value
+    def calc(self):
+
+
+class Disjunct:        
+    def __init__(self, conjuncts, value):
+        self.conjuncts = conjuncts #list
+        self.value = value
+    def calc(self):
+
+
+class Production:
+	def __init__(self, antecendent, consequent,bf):
+		self.antecendent = antecendent #disjunct
+		self. consequent = consequent # literal
+		self.bf = bf
+
+class Parameter:
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+
 class FIS:
 	def __init__(self, inputs, outputs, productions, parameters):
-		self.inputs = inputs #list of var-s
-		self.outputs = outputs #list of var-s
-		self.productions = productions ##list of var-s
-		self.parameters = parameters ##list of var-s
+		self.inputs = inputs #list of variables
+		self.outputs = outputs #list of varibles
+		self.productions = productions #list of productions
+		self.parameters = parameters #list of parameters
+	def DefuzzMeth(self):
+	def Fuzzyfication(self):
+#	def Agregation(self):
+	def Activation(self):
+	def Accumulation(self):
+	def CutAndUnion(self):
+	def Defuzzification(self):
