@@ -3,8 +3,15 @@ class MFunction:
     def __init__(self, mftype, parameters):
         self.type = mftype
         self.parameters = parameters #list
+    def calc(self, x):
+    	a = self.parameters('a')
+    	b = self.parameters('b')
+    	if self.parameters('c')
+    		c = self.parameters('c')
+    	if self.parameters('d')
+    		self.parameters('d')
 
-    def calc(self, x, a, b, c, d):
+
         if self.name == "Pfunc":
             if x <= a:
                 return 0
@@ -98,22 +105,26 @@ class LTerms:
     def __init__(self, name, value, mf):
         self.name = name
         self.value = value
-        self.mf = mf
+        self.mf = mf # MFunction-object
 
 
 class MFValue:
     def __init__(self, arg, value):
-        self.arg = arg
+        self.arg = arg # somewhere must be filled
+        #take the size of array, разбиваем на н частей (100 или 300)
+        #и записываем каждую точку деления, и для каждого н находим значение
+        #с шагом который получился от деления и с шагом 
         self.value = value
 
 
 class Variable:
-    def __init__(self, name, value, leftB, rightB, mfvalues):
+    def __init__(self, name, value, leftB, rightB, lterms, mfvalues):
         self.name = name
         self.value = value
         self.leftB = leftB
         self.rightB = rightB
-        self.mfvalues = mfvalues
+        self.lterms = lterms # list of LTterm-objects
+        self.mfvalues = () # list! might be limited (100)
 
 
 class Literal:
@@ -122,22 +133,32 @@ class Literal:
         self.ltname = ltname
         self.neg = neg
         self.value = value
-    def calc(self, inputs): #нужен поиск и по ключу, и по индексу
-    	#self.value = inputs
+    def calc(self, inputs): #where inputs come from is unclear yet
+    	self.value = inputs(self.varname).lterms(self.ltname).value
+    	if self.neg
+    		self.value = 1 - self.value
 
 
 class Conjuct:
 	def __init__(self, literals, value):
-        self.literals = literals #list
+        self.literals = literals #dictionary
         self.value = value
-    def calc(self):
+    def calc(self, inputs):
+    	self.value = 1
+    	for l in self.literals
+    		l.calc(inputs)
+    		self.value = min(me.value, l.value)
 
 
 class Disjunct:        
     def __init__(self, conjuncts, value):
         self.conjuncts = conjuncts #list
         self.value = value
-    def calc(self):
+    def calc(self, inputs):
+    	for c in self.conjuncts
+    		c.calc(inputs)
+    		self.value = max(self.value, c.value)
+
 
 
 class Production:
@@ -158,10 +179,52 @@ class FIS:
 		self.outputs = outputs #list of varibles
 		self.productions = productions #list of productions
 		self.parameters = parameters #list of parameters
-	def DefuzzMeth(self):
+	def DefuzzMeth(self, mfvalues):
+		# Yvalue = (sum of all arg*values from mfvalues)/sum of values from mfvalues		numerator = 0
+		# Y - output variable
+		# value - value from membership function with arg
+		# args - Y domen
+		if "centroid method"
+			numerator = 0
+			denominator = 0
+			for x in mfvalues
+				numerator += x.arg*x.value
+				denominator += x.value
+		return numerator/denominator
+
 	def Fuzzyfication(self):
-#	def Agregation(self):
+		for x in self.inputs
+			for l in x.lterms
+				l.value = l.mf.calc(x.value)
+	def Agregation(self):
+		for p in productions
+			p.antecendent.calc(self.inputs)
 	def Activation(self):
-	def Accumulation(self):
+		for p in productions
+			p.consequent.value = min(p.antecendent.value, p.bf)
 	def CutAndUnion(self):
+		for y in outputs
+			for m in y.mfvalues
+				m.value = 0
+				for l in y.lterms
+					m.value = max(m.value, min(l.mf.calc(m.arg), l.value))
+
 	def Defuzzification(self):
+		for y from outputs
+			y.value = DefuzzMeth(y.mfvalues)		
+
+	def CreateArgs(self, var, amount):
+		interval = var.rightB - var.leftB
+		step = interval/amount
+		mfvalues = []
+		i = leftB
+		while i <= rightB:
+			mfvalue = MFValue(i,0)
+			mfvalues.append(mfvalue)
+			i += step
+		return mfvalues
+
+
+
+
+
