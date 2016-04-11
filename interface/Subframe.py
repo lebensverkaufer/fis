@@ -16,4 +16,4 @@ class Subframe:
     self.frame.pack()
 
   def unpack(self):
-    self.frame.destroy()
+    self.frame.pack_forget()

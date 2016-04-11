@@ -13,6 +13,20 @@ class MainWizard(Subframe):
 
     Label(self.frame, text="here be main Wizard").pack(side=LEFT)
 
-    new_varFrame = VarFrame(self.frame)
-    new_varFrame.pack()
-    # это будем делать по кнопке
+    self.varList = Listbox(self.frame)
+    self.varList.pack()
+
+    self.new_varFrame = VarFrame(self.frame, self.saveVar)
+
+    newVarBtn = Button(self.frame, text = 'Add new Variable',
+        command=lambda: self.createNewVarFrame(self.new_varFrame))
+    newVarBtn.pack()
+
+
+  def createNewVarFrame(self, oldVarFrame):
+    oldVarFrame.unpack()
+    self.new_varFrame = VarFrame(self.frame, self.saveVar)
+    self.new_varFrame.pack()
+    
+  def saveVar(self, variable):
+    self.varList.insert(END, variable)
