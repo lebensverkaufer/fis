@@ -1,8 +1,7 @@
 class MFunction:
-
     def __init__(self, mftype, parameters):
         self.type = mftype
-        self.parameters = parameters #list
+        self.parameters = parameters #dictionary
     def calc(self, x):
     	a = self.parameters('a')
     	b = self.parameters('b')
@@ -124,7 +123,6 @@ class Variable:
         self.leftB = leftB
         self.rightB = rightB
         self.lterms = lterms # list of LTterm-objects
-        self.mfvalues = () # list! might be limited (100)
 
 
 class Literal:
@@ -133,7 +131,7 @@ class Literal:
         self.ltname = ltname
         self.neg = neg
         self.value = value
-    def calc(self, inputs): #where inputs come from is unclear yet
+    def calc(self, inputs):
     	self.value = inputs(self.varname).lterms(self.ltname).value
     	if self.neg
     		self.value = 1 - self.value
@@ -141,7 +139,7 @@ class Literal:
 
 class Conjuct:
 	def __init__(self, literals, value):
-        self.literals = literals #dictionary
+        self.literals = literals #list
         self.value = value
     def calc(self, inputs):
     	self.value = 1
@@ -182,7 +180,7 @@ class FIS:
 	def DefuzzMeth(self, mfvalues):
 		# Yvalue = (sum of all arg*values from mfvalues)/sum of values from mfvalues		numerator = 0
 		# Y - output variable
-		# value - value from membership function with arg
+		# value = mfunc(arg)
 		# args - Y domen
 		if "centroid method"
 			numerator = 0
