@@ -29,4 +29,4 @@ class MainWizard(Subframe):
     self.new_varFrame.pack()
     
   def saveVar(self, variable):
-    self.varList.insert(END, variable)
+    self.varList.insert(END, variable.name)
