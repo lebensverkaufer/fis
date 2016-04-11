@@ -3,12 +3,12 @@ class MFunction:
         self.type = mftype
         self.parameters = parameters #dictionary
     def calc(self, x):
-    	a = self.parameters('a')
-    	b = self.parameters('b')
-    	if self.parameters('c')
-    		c = self.parameters('c')
-    	if self.parameters('d')
-    		self.parameters('d')
+        a = self.parameters('a')
+        b = self.parameters('b')
+        if self.parameters('c'):
+            c = self.parameters('c')
+        if self.parameters('d'):
+            self.parameters('d')
 
 
         if self.name == "Pfunc":
@@ -117,7 +117,7 @@ class MFValue:
 
 
 class Variable:
-    def __init__(self, name, value, leftB, rightB, lterms, mfvalues):
+    def __init__(self, name = "", value = None, leftB = None, rightB = None, lterms = [], mfvalues = []):
         self.name = name
         self.value = value
         self.leftB = leftB
@@ -126,26 +126,26 @@ class Variable:
 
 
 class Literal:
-	def __init__(self, varname, ltname, neg, value):
+    def __init__(self, varname, ltname, neg, value):
         self.varname = varname
         self.ltname = ltname
         self.neg = neg
         self.value = value
     def calc(self, inputs):
-    	self.value = inputs(self.varname).lterms(self.ltname).value
-    	if self.neg
-    		self.value = 1 - self.value
+        self.value = inputs(self.varname).lterms(self.ltname).value
+        if self.neg:
+            self.value = 1 - self.value
 
 
 class Conjuct:
-	def __init__(self, literals, value):
+    def __init__(self, literals, value):
         self.literals = literals #list
         self.value = value
     def calc(self, inputs):
-    	self.value = 1
-    	for l in self.literals
-    		l.calc(inputs)
-    		self.value = min(me.value, l.value)
+        self.value = 1
+        for l in self.literals:
+            l.calc(inputs)
+            self.value = min(me.value, l.value)
 
 
 class Disjunct:        
@@ -153,17 +153,17 @@ class Disjunct:
         self.conjuncts = conjuncts #list
         self.value = value
     def calc(self, inputs):
-    	for c in self.conjuncts
-    		c.calc(inputs)
-    		self.value = max(self.value, c.value)
+        for c in self.conjuncts:
+            c.calc(inputs)
+            self.value = max(self.value, c.value)
 
 
 
 class Production:
-	def __init__(self, antecendent, consequent,bf):
-		self.antecendent = antecendent #disjunct
-		self. consequent = consequent # literal
-		self.bf = bf
+    def __init__(self, antecendent, consequent,bf):
+        self.antecendent = antecendent #disjunct
+        self. consequent = consequent # literal
+        self.bf = bf
 
 class Parameter:
     def __init__(self, name, value):
@@ -172,55 +172,55 @@ class Parameter:
 
 
 class FIS:
-	def __init__(self, inputs, outputs, productions, parameters):
-		self.inputs = inputs #list of variables
-		self.outputs = outputs #list of varibles
-		self.productions = productions #list of productions
-		self.parameters = parameters #list of parameters
-	def DefuzzMeth(self, mfvalues):
-		# Yvalue = (sum of all arg*values from mfvalues)/sum of values from mfvalues		numerator = 0
-		# Y - output variable
-		# value = mfunc(arg)
-		# args - Y domen
-		if "centroid method"
-			numerator = 0
-			denominator = 0
-			for x in mfvalues
-				numerator += x.arg*x.value
-				denominator += x.value
-		return numerator/denominator
+    def __init__(self, inputs, outputs, productions, parameters):
+        self.inputs = inputs #list of variables
+        self.outputs = outputs #list of varibles
+        self.productions = productions #list of productions
+        self.parameters = parameters #list of parameters
+    def DefuzzMeth(self, mfvalues):
+        # Yvalue = (sum of all arg*values from mfvalues)/sum of values from mfvalues        numerator = 0
+        # Y - output variable
+        # value = mfunc(arg)
+        # args - Y domen
+        if "centroid method":
+            numerator = 0
+            denominator = 0
+            for x in mfvalues:
+                numerator += x.arg*x.value
+                denominator += x.value
+        return numerator/denominator
 
-	def Fuzzyfication(self):
-		for x in self.inputs
-			for l in x.lterms
-				l.value = l.mf.calc(x.value)
-	def Agregation(self):
-		for p in productions
-			p.antecendent.calc(self.inputs)
-	def Activation(self):
-		for p in productions
-			p.consequent.value = min(p.antecendent.value, p.bf)
-	def CutAndUnion(self):
-		for y in outputs
-			for m in y.mfvalues
-				m.value = 0
-				for l in y.lterms
-					m.value = max(m.value, min(l.mf.calc(m.arg), l.value))
+    def Fuzzyfication(self):
+        for x in self.inputs:
+            for l in x.lterms:
+                l.value = l.mf.calc(x.value)
+    def Agregation(self):
+        for p in productions:
+            p.antecendent.calc(self.inputs)
+    def Activation(self):
+        for p in productions:
+            p.consequent.value = min(p.antecendent.value, p.bf)
+    def CutAndUnion(self):
+        for y in outputs:
+            for m in y.mfvalues:
+                m.value = 0
+                for l in y.lterms:
+                    m.value = max(m.value, min(l.mf.calc(m.arg), l.value))
 
-	def Defuzzification(self):
-		for y from outputs
-			y.value = DefuzzMeth(y.mfvalues)		
+    def Defuzzification(self):
+        for y in outputs:
+            y.value = DefuzzMeth(y.mfvalues)        
 
-	def CreateArgs(self, var, amount):
-		interval = var.rightB - var.leftB
-		step = interval/amount
-		mfvalues = []
-		i = leftB
-		while i <= rightB:
-			mfvalue = MFValue(i,0)
-			mfvalues.append(mfvalue)
-			i += step
-		return mfvalues
+    def CreateArgs(self, var, amount):
+        interval = var.rightB - var.leftB
+        step = interval/amount
+        mfvalues = []
+        i = leftB
+        while i <= rightB:
+            mfvalue = MFValue(i,0)
+            mfvalues.append(mfvalue)
+            i += step
+        return mfvalues
 
 
 
