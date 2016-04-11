@@ -1,14 +1,18 @@
 import tkinter as tk
 from tkinter import *
-
-# import new_variable as varFrame
-# import new_lTerm as ltFrame
-
 from interface.Subframe import Subframe
 
+from interface.VarFrame import VarFrame
+from interface.LTermFrame import LTermFrame
 
-class mainWizard(Subframe):
+
+
+class MainWizard(Subframe):
   def __init__(self, container):
-    Subframe.__init__(self, containerFrame = container)
+    super().__init__(containerFrame = container)
 
-    Label(self.subframe, text="here be main Wizard").pack(side=LEFT)
+    Label(self.frame, text="here be main Wizard").pack(side=LEFT)
+
+    new_varFrame = VarFrame(self.frame)
+    new_varFrame.pack()
+    # это будем делать по кнопке

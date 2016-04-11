@@ -13,9 +13,9 @@ class Application(tk.Frame):
         # self.showGroup_createNewVar(self.variablesInputGroup)
 
         self.pack()
-        mainWizard = UI.mainWizard(self)
+        mainWizard = UI.MainWizard(self)
         mainWizard.pack()
-        
+
     # def showGroup_createNewVar(self, container):   
         # container.pack(padx=10, pady=10)
 

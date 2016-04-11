@@ -2,11 +2,18 @@ import tkinter as tk
 from tkinter import *
 
 class Subframe:
-  def __init__(self, containerFrame):
-    self.subframe = tk.Frame(containerFrame)
-    
+  ## use self.frame as inner container
+  def __init__(self, containerFrame, border = 1, bg = 'white', pady = 10, padx = 10):
+    self.frame = tk.Frame(containerFrame, 
+      relief      = 'groove', 
+      borderwidth = border, 
+      bg          = bg, 
+      pady        = pady, 
+      padx        = padx
+    )
+
   def pack(self):
-    self.subframe.pack()
+    self.frame.pack()
 
   def unpack(self):
-    self.subframe.destroy()
+    self.frame.destroy()
